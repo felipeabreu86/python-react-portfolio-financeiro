@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from django.test import TestCase
 from api.usuarios.models import Usuario
 from datetime import datetime
@@ -27,3 +28,25 @@ class UsuarioModelTest(TestCase):
     def test_usuario_ativo_por_padrao(self):
         """Testa se o usuário por padrão está ativo"""
         self.assertEqual(True, self.obj.ativo)
+
+    def test_tamanho_maximo_nome_do_usuario(self):
+        """Testa se o tamanho máximo do nome do usuário está sendo respeitado"""
+        nome_invalido = "A" * 101
+        user = Usuario(
+            nome=nome_invalido,
+            email="email@email.com",
+            senha="senha123",
+        )
+        with self.assertRaises(ValidationError):
+            user.full_clean()
+
+    def test_nome_do_usuario_vazio(self):
+        """Não deve ser possível registrar um usuário com nome vazio"""
+        for content in ["", None]:
+            with self.subTest():
+                with self.assertRaises(ValidationError):
+                    Usuario(
+                        nome=content,
+                        email="email@email.com",
+                        senha="senha123",
+                    ).full_clean()
