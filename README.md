@@ -14,7 +14,7 @@ Sistema Web desenvolvido com Django (Backend) e React (Frontend) visando manter 
 7. Execute os testes
 
 ```console
-1. git clone git@github.com:felipeabreu86/python-django-rest-api-clientes.git
+1. git clone git@github.com:felipeabreu86/python-react-portfolio-financeiro.git
 2. cd python-django-rest-api-clientes\backend
 3. python -m venv .venv
 4. ./.venv/scripts/activate
