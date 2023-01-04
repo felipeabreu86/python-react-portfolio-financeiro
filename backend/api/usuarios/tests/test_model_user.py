@@ -3,12 +3,12 @@ from django.test import TestCase
 from datetime import datetime
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
-
 
 class UserModelTest(TestCase):
     def setUp(self):
-        self.obj = User(
+        self.user_model = get_user_model()
+
+        self.obj = self.user_model(
             username="usuarioteste",
             email="email@email.com",
             password="senha123",
@@ -19,7 +19,7 @@ class UserModelTest(TestCase):
 
     def test_usuario_criado(self):
         """Testa a criação de um usuário"""
-        self.assertTrue(User.objects.exists())
+        self.assertTrue(self.user_model.objects.exists())
 
     def test_criado_em(self):
         """O usuário precisa ter um atributo auto-criado referente à data de criação do registro"""
@@ -40,14 +40,14 @@ class UserModelTest(TestCase):
     def test_tamanho_maximo_nome_do_usuario(self):
         """Testa se o tamanho máximo de 150 caracteres do nome do usuário está sendo respeitado"""
         with self.assertRaises(ValidationError):
-            User(
+            self.user_model(
                 username="A" * 151,
                 email="email@email.com",
                 password="senha123",
                 first_name="Usuario",
                 last_name="Teste",
             ).full_clean()
-        User(
+        self.user_model(
             username="A" * 150,
             email="email@email.com",
             password="senha123",
@@ -60,7 +60,7 @@ class UserModelTest(TestCase):
         for content in ["", None]:
             with self.subTest():
                 with self.assertRaises(ValidationError):
-                    User(
+                    self.user_model(
                         username=content,
                         email="email@email.com",
                         password="senha123",
@@ -73,7 +73,7 @@ class UserModelTest(TestCase):
         for content in ["", None]:
             with self.subTest():
                 with self.assertRaises(ValidationError):
-                    User(
+                    self.user_model(
                         username="username",
                         email="email@email.com",
                         password=content,
