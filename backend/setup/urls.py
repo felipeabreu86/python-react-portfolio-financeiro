@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from api.usuarios.urls import usuarios_urls
 from rest_framework import permissions
 
 # Swagger
@@ -21,8 +20,14 @@ schema_view = get_schema_view(
 
 # Configuração das URLs do projeto
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("usuarios/", include(usuarios_urls)),
+    path(
+        "admin/",
+        admin.site.urls,
+    ),
+    path(
+        "usuarios/",
+        include("api.usuarios.urls"),
+    ),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),

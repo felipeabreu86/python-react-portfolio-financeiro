@@ -1,11 +1,50 @@
 from django.contrib import admin
-from api.usuarios.models import Usuario
+from django.contrib.auth.admin import UserAdmin
+from .models import CustomUser
 
 
-class UsuarioModelAdmin(admin.ModelAdmin):
-    list_display = ("nome", "email", "senha", "criado_em", "ativo")
-    date_hierarchy = "criado_em"
-    search_fields = ("nome", "email", "criado_em", "ativo")
+class CustomUserAdmin(UserAdmin):
+    list_display = (
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_active",
+    )
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (
+            "Personal info",
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                )
+            },
+        ),
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
+            },
+        ),
+        (
+            "Important dates",
+            {
+                "fields": (
+                    "last_login",
+                    "date_joined",
+                )
+            },
+        ),
+    )
 
 
-admin.site.register(Usuario, UsuarioModelAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
