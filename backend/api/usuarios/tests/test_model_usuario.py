@@ -17,28 +17,29 @@ class UsuarioModelTest(TestCase):
         """Testa a criação de um usuário"""
         self.assertTrue(Usuario.objects.exists())
 
-    def test_created_at(self):
+    def test_criado_em(self):
         """O usuário precisa ter um atributo auto-criado referente à data de criação do registro"""
         self.assertIsInstance(self.obj.criado_em, datetime)
 
-    def test_representacao_string_do_modelo(self):
-        """Testa se a representação em string do modelo é igual ao nome do usuário"""
-        self.assertEqual("Usuário Teste", str(self.obj))
+    def test_ativo(self):
+        """O usuário precisa ter um atributo (boolean) auto-criado informando se o usuário está ativo ou não"""
+        self.assertIsInstance(self.obj.ativo, bool)
 
     def test_usuario_ativo_por_padrao(self):
         """Testa se o usuário por padrão está ativo"""
         self.assertEqual(True, self.obj.ativo)
 
+    def test_representacao_string_do_modelo(self):
+        """Testa se a representação em string do modelo é igual ao nome do usuário"""
+        self.assertEqual("Usuário Teste", str(self.obj))
+
     def test_tamanho_maximo_nome_do_usuario(self):
-        """Testa se o tamanho máximo do nome do usuário está sendo respeitado"""
-        nome_invalido = "A" * 101
-        user = Usuario(
-            nome=nome_invalido,
-            email="email@email.com",
-            senha="senha123",
-        )
+        """Testa se o tamanho máximo de 100 caracteres do nome do usuário está sendo respeitado"""
         with self.assertRaises(ValidationError):
-            user.full_clean()
+            Usuario(
+                nome="A" * 101, email="email@email.com", senha="senha123"
+            ).full_clean()
+        Usuario(nome="A" * 100, email="email@email.com", senha="senha123").full_clean()
 
     def test_nome_do_usuario_vazio(self):
         """Não deve ser possível registrar um usuário com nome vazio"""
