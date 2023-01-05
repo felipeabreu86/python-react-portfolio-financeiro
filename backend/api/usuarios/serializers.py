@@ -40,7 +40,7 @@ class CreateUserSerializer(serializers.Serializer):
         write_only=True,
         required=True,
     )
-    password = serializers.CharField(
+    password = serializers.RegexField(
         label="Password",
         style={
             "input_type": "password"
@@ -48,6 +48,7 @@ class CreateUserSerializer(serializers.Serializer):
         trim_whitespace=False,
         write_only=True,
         required=True,
+        regex="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$",
     )
     email = serializers.EmailField(
         label="E-mail",
