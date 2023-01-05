@@ -92,7 +92,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "usuarios.CustomUser"
+AUTH_USER_MODEL = "usuarios.UsuarioModel"
 
 
 # Internationalization

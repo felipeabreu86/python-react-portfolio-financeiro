@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import UsuarioModel
 
 
-class CustomUserAdmin(UserAdmin):
+class UsuarioModelAdmin(UserAdmin):
     list_display = (
         "username",
         "email",
@@ -47,4 +47,4 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(UsuarioModel, UsuarioModelAdmin)
