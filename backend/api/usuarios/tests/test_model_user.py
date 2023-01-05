@@ -8,7 +8,7 @@ class UserModelTest(TestCase):
     def setUp(self):
         self.user_model = get_user_model()
 
-        self.obj = self.user_model(
+        self.obj = self.user_model.objects.create_user(
             username="usuarioteste",
             email="email@email.com",
             password="senha123",
